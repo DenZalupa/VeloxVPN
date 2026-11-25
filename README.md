@@ -288,12 +288,54 @@ Kill Switch и DoH), извлечение ключей, быстрый пинг,
 
 ## Как выложить на GitHub
 
-### Самый простой способ — `publish.bat`
+### Основной способ — `git` + GitHub CLI
 
-Двойной клик по **`publish.bat`** в папке проекта: скрипт создаст (или обновит)
-репозиторий, зальёт исходники и соберёт релиз со сборкой Windows.
+Нужны **Git** и **GitHub CLI** (`gh`). Если их нет:
 
-Перед первым запуском нужен **Personal Access Token (classic)**:
+```bat
+winget install --id Git.Git -e --source winget
+winget install --id GitHub.cli -e --source winget
+```
+
+Один раз авторизуйте `gh` (откроется браузер, нужно подтвердить вход
+в аккаунт):
+
+```bat
+gh auth login --hostname github.com --git-protocol https --web
+```
+
+Дальше публикация — обычные git-команды:
+
+```bat
+git add -A
+git commit -m "Описание изменений"
+gh repo create VeloxVPN --public --source=. --remote=origin --push
+```
+
+Дальше обновление репозитория сводится к трём строкам:
+
+```bat
+git add -A
+git commit -m "Что изменилось"
+git push
+```
+
+Релиз со сборкой Windows:
+
+```bat
+gh release create v1.0.0 "VeloxVPN-windows.zip" --title "VeloxVPN 1.0.0" --notes "Описание релиза"
+```
+
+`gh` хранит токен в **Windows Credential Manager** — он не лежит в файлах
+репозитория и не попадает в коммиты.
+
+Для повторных публикаций в проекте лежит **`publish_git.bat`**: он сам
+проверит авторизацию, создаст коммит и отправит изменения в `origin`.
+
+### Запасной способ — `publish.bat` (без `git` и `gh`)
+
+Скрипт работает напрямую через **REST API GitHub** и подходит, если
+устанавливать `git`/`gh` не хочется. Нужен **Personal Access Token (classic)**:
 
 1. GitHub → **Settings** → **Developer settings** → **Personal access tokens**
    → **Generate new token (classic)**.
@@ -309,6 +351,10 @@ publish.bat
 
 Скрипт спросит имя репозитория (по умолчанию `VeloxVPN`) и опубликует проект.
 Открыть репозиторий: `https://github.com/<ваш-логин>/VeloxVPN`.
+
+> Fine-grained токен для этого способа **не подойдёт**: он не умеет создавать
+> репозитории и блокирует запись, пока у него нет явного права
+> **Contents: Read and write** на конкретный репозиторий.
 
 ### Вручную, без bat-файла
 
@@ -330,31 +376,27 @@ python publish_github.py --repo VeloxVPN --visibility public --release
 иначе — из файла `%USERPROFILE%\.velox_github_token`. В репозиторий он не
 копируется и в логи не попадает.
 
-### Как это работает
+### Как это работает (REST-вариант)
 
-`publish_github.py` ходит напрямую в **REST API GitHub** (без `git` и без
-`gh` — их не нужно устанавливать) и использует Git Data API:
+`publish_github.py` использует Git Data API:
 
 1. **blob** — каждый файл загружается как отдельный блоб;
 2. **tree** — из блобов собирается дерево;
 3. **commit** — создаётся коммит с этим деревом;
 4. **ref** — указатель ветки `main` переносится на новый коммит.
 
-Скрипт **уважает `.gitignore`**: личные данные (`data/`), ядра sing-box и
-Wintun (`bin/*`), локальные сборки (`/VeloxVPN/`) и zip-архивы релизов
-в репозиторий не попадают. Перед публикацией можно проверить состав
-файлов: `python publish_github.py --dry-run`.
+### Что не попадает в репозиторий
 
-### Обычный git (если он установлен)
+`.gitignore` исключает личные данные (`data/`), ядра sing-box и Wintun
+(`bin/*`), локальные сборки (`/VeloxVPN/`, `dist/`, `build/`) и zip-архивы
+релизов. Ядро sing-box и Wintun приложение скачивает само при первом запуске.
 
-1. Убедитесь, что `data\` и `bin\*` не попадут в репозиторий — это уже есть
-   в `.gitignore`.
-2. Создайте репозиторий и выполните `init_repo.bat` — скрипт инициализирует
-   git, сделает первый коммит и спросит адрес удалённого репозитория.
-3. Остаётся выполнить:
-   ```bat
-   git push -u origin main
-   ```
+Проверить состав файлов перед публикацией:
+
+```bat
+git status --short
+python publish_github.py --dry-run
+```
 
 ### Автоматическая сборка
 
