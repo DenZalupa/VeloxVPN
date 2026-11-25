@@ -33,9 +33,44 @@
     /* --- Акценты --- */
     --accent: #1d1d1f;
     --accent-soft: rgba(29, 29, 31, 0.07);
+    /* Наведение на графитовую кнопку — ещё темнее */
+    --accent-hover: #000000;
     --ok: #34c759;
     --warn: #ff9f0a;
     --danger: #ff3b30;
+
+    /* --- Цвета текста статусов ---
+       Отдельные от --ok/--warn/--danger: в светлой теме текст на
+       полупрозрачной цветной подложке должен быть тёмным (контраст),
+       а в тёмной — светлым. */
+    --ok-text: #1e7e34;
+    --ok-text-soft: #248a3d;
+    --warn-text: #9c5800;
+    --warn-text-soft: #b26a00;
+    --danger-text: #cf1322;
+    --info-text: #0066cc;
+
+    /* --- Поверхности ---
+       Все «стеклянные» подложки, которые раньше были зашиты светлыми
+       rgba(255,255,255,…). Через переменные они корректно
+       переключаются в тёмной теме — иначе модальные окна и попапы
+       остаются белыми, а текст в них (var(--text) в тёмной теме
+       почти белый) сливается с фоном. */
+    --surface-overlay: rgba(232, 234, 238, 0.55);
+    --surface-modal: rgba(255, 255, 255, 0.88);
+    --surface-modal-header: rgba(255, 255, 255, 0.72);
+    --surface-popover: rgba(255, 255, 255, 0.90);
+    --surface-item: rgba(255, 255, 255, 0.70);
+    --surface-soft: rgba(255, 255, 255, 0.62);
+    --surface-field: rgba(255, 255, 255, 0.85);
+    --surface-toast: rgba(255, 255, 255, 0.82);
+    /* Полностью непрозрачная «приподнятая» подложка (активная вкладка, фокус) */
+    --surface-strong: #ffffff;
+    /* Полупрозрачная приподнятая подложка (hover поверх стекла) */
+    --surface-strong-soft: rgba(255, 255, 255, 0.80);
+    --surface-hover-soft: rgba(255, 255, 255, 0.50);
+
+    --scrollbar-thumb: rgba(0, 0, 0, 0.16);
 
     /* --- Радиусы --- */
     --r-xs: 8px;
@@ -221,13 +256,13 @@ body::before {
 
 .proxy-badge.active {
     background: rgba(52, 199, 89, 0.10);
-    color: #248a3d;
+    color: var(--ok-text-soft);
     border-color: rgba(52, 199, 89, 0.2);
 }
 
 .proxy-badge.stale {
     background: rgba(255, 149, 0, 0.10);
-    color: #a35c00;
+    color: var(--warn-text-soft);
     border-color: rgba(255, 149, 0, 0.22);
 }
 
@@ -317,7 +352,7 @@ body::before {
 }
 
 .btn-primary:hover {
-    background: #000;
+    background: var(--accent-hover);
     transform: translateY(-1px);
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
 }
@@ -336,7 +371,7 @@ body::before {
 }
 
 .btn-secondary:hover {
-    background: #fff;
+    background: var(--surface-strong);
     transform: translateY(-1px);
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
 }
@@ -356,7 +391,7 @@ body::before {
 }
 
 .btn-elevate:hover {
-    background: #000;
+    background: var(--accent-hover);
 }
 
 /* Иконочные кнопки в шапке — стеклянные круги */
@@ -379,7 +414,7 @@ body::before {
 
 #btnRepairNetwork:hover {
     border-color: rgba(255, 159, 10, 0.35);
-    color: #b26a00;
+    color: var(--warn-text-soft);
     background: rgba(255, 159, 10, 0.08);
 }
 
@@ -532,11 +567,11 @@ body::before {
 }
 
 .conn-state.connected {
-    color: #248a3d;
+    color: var(--ok-text-soft);
 }
 
 .conn-state.connecting {
-    color: #b26a00;
+    color: var(--warn-text-soft);
 }
 
 .conn-target {
@@ -572,7 +607,7 @@ body::before {
 }
 
 .real-delay-badge.good {
-    color: #248a3d;
+    color: var(--ok-text-soft);
     background: rgba(52, 199, 89, 0.10);
     border-color: rgba(52, 199, 89, 0.18);
 }
@@ -625,7 +660,7 @@ body::before {
     padding: 1.5px 7px;
     background: rgba(52, 199, 89, 0.12);
     border: 1px solid rgba(52, 199, 89, 0.22);
-    color: #248a3d;
+    color: var(--ok-text-soft);
     border-radius: var(--r-pill);
     font-size: 9.5px;
     font-weight: 600;
@@ -672,7 +707,7 @@ body::before {
 }
 
 .route-btn.active {
-    background: #ffffff;
+    background: var(--surface-strong);
     color: var(--text);
     font-weight: 600;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 0 0 0.5px rgba(0, 0, 0, 0.04);
@@ -736,7 +771,7 @@ body::before {
     padding-top: 5px;
     font-size: 10.5px;
     font-weight: 500;
-    color: #b26a00;
+    color: var(--warn-text-soft);
     border-top: 1px solid var(--hairline);
 }
 
@@ -796,17 +831,17 @@ body::before {
 
 .metric-down .metric-icon-wrap {
     background: rgba(52, 199, 89, 0.12);
-    color: #248a3d;
+    color: var(--ok-text-soft);
 }
 
 .metric-up .metric-icon-wrap {
     background: rgba(0, 113, 227, 0.10);
-    color: #0071e3;
+    color: var(--info-text);
 }
 
 .metric-total .metric-icon-wrap {
     background: rgba(142, 142, 147, 0.12);
-    color: #555558;
+    color: var(--text-3);
 }
 
 .metric-info {
@@ -837,11 +872,11 @@ body::before {
 }
 
 .metric-down .metric-value {
-    color: #1e7e34;
+    color: var(--ok-text);
 }
 
 .metric-up .metric-value {
-    color: #0066cc;
+    color: var(--info-text);
 }
 
 .metric-divider {
@@ -879,9 +914,9 @@ body::before {
 }
 
 .btn-express-speedtest:hover {
-    background: #ffffff;
+    background: var(--surface-strong);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
-    border-color: rgba(0, 0, 0, 0.12);
+    border-color: var(--hairline-strong);
     transform: translateY(-1px);
 }
 
@@ -909,7 +944,7 @@ body::before {
     background: rgba(52, 199, 89, 0.12);
     border: 1px solid rgba(52, 199, 89, 0.24);
     border-radius: var(--r-pill);
-    color: #1e7e34;
+    color: var(--ok-text);
     font-size: 12px;
     font-weight: 700;
     font-family: var(--font-mono);
@@ -924,7 +959,7 @@ body::before {
 .speedtest-result-badge .speed-unit {
     font-size: 10px;
     font-weight: 600;
-    color: #248a3d;
+    color: var(--ok-text-soft);
     margin-left: 2px;
 }
 
@@ -969,7 +1004,7 @@ body::before {
 }
 
 #btnPingAll:hover {
-    background: #000;
+    background: var(--accent-hover);
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.16);
 }
@@ -986,7 +1021,7 @@ body::before {
 }
 
 #btnUpdateAllSubs:hover {
-    background: #fff;
+    background: var(--surface-strong);
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
     transform: translateY(-1px);
 }
@@ -1044,9 +1079,9 @@ body::before {
 
 .search-input-wrapper input:focus {
     width: 240px;
-    background: #fff;
-    border-color: rgba(0, 0, 0, 0.16);
-    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+    background: var(--surface-strong);
+    border-color: var(--hairline-strong);
+    box-shadow: 0 0 0 3px var(--accent-soft);
 }
 
 /* --- Выпадающий список сортировки --- */
@@ -1079,7 +1114,7 @@ body::before {
 
 .dropdown-trigger:hover,
 .custom-dropdown.open .dropdown-trigger {
-    background: #fff;
+    background: var(--surface-strong);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
@@ -1098,7 +1133,7 @@ body::before {
     top: calc(100% + 5px);
     right: 0;
     min-width: 100%;
-    background: rgba(255, 255, 255, 0.90);
+    background: var(--surface-popover);
     backdrop-filter: var(--blur);
     -webkit-backdrop-filter: var(--blur);
     border: 1px solid var(--hairline);
@@ -1200,11 +1235,11 @@ body::before {
 
 .category-tab:hover {
     color: var(--text);
-    background: rgba(255, 255, 255, 0.5);
+    background: var(--surface-hover-soft);
 }
 
 .category-tab.active {
-    background: #ffffff;
+    background: var(--surface-strong);
     color: var(--text);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 0 0 0.5px rgba(0, 0, 0, 0.04);
     font-weight: 600;
@@ -1249,7 +1284,7 @@ body::before {
     padding: 1.5px 6px;
     border-radius: var(--r-pill);
     background: rgba(52, 199, 89, 0.12);
-    color: #248a3d;
+    color: var(--ok-text-soft);
     font-size: 9.5px;
     font-weight: 600;
     letter-spacing: 0.02em;
@@ -1265,7 +1300,7 @@ body::before {
     border-radius: var(--r-pill);
     background: rgba(52, 199, 89, 0.10);
     border: 1px solid rgba(52, 199, 89, 0.18);
-    color: #248a3d;
+    color: var(--ok-text-soft);
     font-size: 10px;
     font-weight: 600;
     letter-spacing: 0.02em;
@@ -1374,7 +1409,7 @@ body::before {
 }
 
 .server-card.active-connected {
-    background: rgba(255, 255, 255, 0.8);
+    background: var(--surface-strong-soft);
     border-color: rgba(52, 199, 89, 0.4);
     box-shadow: 0 0 0 1px rgba(52, 199, 89, 0.12), var(--sh-md);
 }
@@ -1504,19 +1539,19 @@ body::before {
 
 .ping-badge.fast {
     background: rgba(52, 199, 89, 0.12);
-    color: #1e7e34;
+    color: var(--ok-text);
     border-color: rgba(52, 199, 89, 0.24);
 }
 
 .ping-badge.medium {
     background: rgba(255, 159, 10, 0.12);
-    color: #9c5800;
+    color: var(--warn-text);
     border-color: rgba(255, 159, 10, 0.24);
 }
 
 .ping-badge.slow {
     background: rgba(255, 59, 48, 0.10);
-    color: #cf1322;
+    color: var(--danger-text);
     border-color: rgba(255, 59, 48, 0.22);
 }
 
@@ -1597,7 +1632,7 @@ body::before {
 }
 
 .action-icon-btn[title*="Копировать"]:hover {
-    color: #0071e3;
+    color: var(--info-text);
     background: rgba(0, 113, 227, 0.12);
 }
 
@@ -1610,7 +1645,7 @@ body::before {
 .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(232, 234, 238, 0.55);
+    background: var(--surface-overlay);
     backdrop-filter: saturate(150%) blur(22px);
     -webkit-backdrop-filter: saturate(150%) blur(22px);
     display: none;
@@ -1624,7 +1659,7 @@ body::before {
 }
 
 .modal-card {
-    background: rgba(255, 255, 255, 0.88);
+    background: var(--surface-modal);
     backdrop-filter: var(--blur);
     -webkit-backdrop-filter: var(--blur);
     border: 1px solid var(--hairline);
@@ -1636,7 +1671,7 @@ body::before {
     box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12), var(--sh-top);
     animation: sheetIn 0.28s cubic-bezier(0.32, 0.72, 0, 1);
     scrollbar-width: thin;
-    scrollbar-color: rgba(0, 0, 0, 0.16) transparent;
+    scrollbar-color: var(--scrollbar-thumb) transparent;
 }
 
 .modal-card::-webkit-scrollbar {
@@ -1644,7 +1679,7 @@ body::before {
 }
 
 .modal-card::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.16);
+    background: var(--scrollbar-thumb);
     border-radius: 999px;
 }
 
@@ -1666,7 +1701,7 @@ body::before {
     position: sticky;
     top: 0;
     z-index: 2;
-    background: rgba(255, 255, 255, 0.72);
+    background: var(--surface-modal-header);
     backdrop-filter: saturate(180%) blur(20px);
     -webkit-backdrop-filter: saturate(180%) blur(20px);
     border-radius: var(--r-xl) var(--r-xl) 0 0;
@@ -1734,7 +1769,7 @@ input[type="url"],
 input[type="number"],
 textarea {
     padding: 9px 13px;
-    background: rgba(255, 255, 255, 0.85);
+    background: var(--surface-field);
     border: 1px solid var(--hairline);
     border-radius: var(--r-sm);
     color: var(--text);
@@ -1753,9 +1788,9 @@ textarea::placeholder {
 
 input:focus,
 textarea:focus {
-    background: #fff;
-    border-color: rgba(0, 0, 0, 0.18);
-    box-shadow: 0 0 0 3.5px rgba(0, 0, 0, 0.06);
+    background: var(--surface-strong);
+    border-color: var(--hairline-strong);
+    box-shadow: 0 0 0 3.5px var(--accent-soft);
 }
 
 .divider {
@@ -1792,14 +1827,14 @@ textarea:focus {
     align-items: center;
     gap: 10px;
     padding: 11px 14px;
-    background: rgba(255, 255, 255, 0.7);
+    background: var(--surface-item);
     border: 1px solid var(--hairline);
     border-radius: var(--r-md);
     transition: all 0.2s ease;
 }
 
 .sub-item:hover {
-    background: #fff;
+    background: var(--surface-strong);
     box-shadow: var(--sh-sm);
 }
 
@@ -1838,7 +1873,7 @@ textarea:focus {
     flex-direction: column;
     gap: 9px;
     padding: 14px 16px;
-    background: rgba(255, 255, 255, 0.62);
+    background: var(--surface-soft);
     border: 1px solid var(--hairline);
     border-radius: var(--r-md);
 }
@@ -2010,7 +2045,7 @@ textarea:focus {
 .preset-chip {
     padding: 5px 12px;
     border-radius: var(--r-pill);
-    background: rgba(255, 255, 255, 0.8);
+    background: var(--surface-strong-soft);
     border: 1px solid var(--hairline);
     color: var(--text-2);
     font-size: 11.5px;
@@ -2021,7 +2056,7 @@ textarea:focus {
 }
 
 .preset-chip:hover {
-    background: #fff;
+    background: var(--surface-strong);
     color: var(--text);
     box-shadow: var(--sh-sm);
 }
@@ -2083,7 +2118,7 @@ textarea:focus {
     bottom: 24px;
     right: 24px;
     padding: 11px 20px;
-    background: rgba(255, 255, 255, 0.82);
+    background: var(--surface-toast);
     backdrop-filter: var(--blur);
     -webkit-backdrop-filter: var(--blur);
     border: 1px solid var(--hairline);
@@ -2297,23 +2332,23 @@ textarea:focus {
 .power-btn--connected .power-btn__ring {
     background: linear-gradient(180deg, #f6fff8, #e8f8ee);
     border-color: rgba(52, 199, 89, 0.38);
-    color: #1e7e34;
+    color: var(--ok-text);
     box-shadow: 0 0 0 4px rgba(52, 199, 89, 0.14), 0 14px 34px rgba(0, 0, 0, 0.10), var(--sh-top);
 }
 
 .power-btn--connected .power-btn__label {
-    color: #1e7e34;
+    color: var(--ok-text);
 }
 
 .power-btn--connecting .power-btn__ring {
     background: linear-gradient(180deg, #fffdf6, #fdf3e0);
     border-color: rgba(255, 159, 10, 0.42);
-    color: #b26a00;
+    color: var(--warn-text-soft);
     animation: softPulse 1.6s ease-in-out infinite;
 }
 
 .power-btn--connecting .power-btn__label {
-    color: #b26a00;
+    color: var(--warn-text-soft);
 }
 
 .power-btn--error .power-btn__ring {
@@ -2645,10 +2680,36 @@ html[data-theme="dark"] {
     /* Акцент в тёмной теме — светлый (инвертированный) */
     --accent: #f2f2f5;
     --accent-soft: rgba(255, 255, 255, 0.10);
+    --accent-hover: #ffffff;
+
+    /* Поверхности в тёмной теме — тёмные, иначе модальные окна
+       и попапы остаются белыми, а светлый текст в них не читается. */
+    --surface-overlay: rgba(8, 9, 12, 0.62);
+    --surface-modal: rgba(26, 28, 34, 0.92);
+    --surface-modal-header: rgba(22, 24, 29, 0.88);
+    --surface-popover: rgba(30, 32, 38, 0.96);
+    --surface-item: rgba(255, 255, 255, 0.06);
+    --surface-soft: rgba(255, 255, 255, 0.05);
+    --surface-field: rgba(255, 255, 255, 0.06);
+    --surface-toast: rgba(28, 30, 36, 0.94);
+    --surface-strong: rgba(255, 255, 255, 0.10);
+    --surface-strong-soft: rgba(255, 255, 255, 0.10);
+    --surface-hover-soft: rgba(255, 255, 255, 0.08);
+
+    --scrollbar-thumb: rgba(255, 255, 255, 0.18);
 
     --ok: #32d74b;
     --warn: #ff9f0a;
     --danger: #ff453a;
+
+    /* В тёмной теме статусные надписи светлеют — иначе тёмно-зелёный
+       текст на тёмном фоне нечитаем. */
+    --ok-text: #4ade80;
+    --ok-text-soft: #34c759;
+    --warn-text: #fbbf24;
+    --warn-text-soft: #f59e0b;
+    --danger-text: #ff6961;
+    --info-text: #4aa8ff;
 
     --sh-sm: 0 1px 2px rgba(0, 0, 0, 0.30), 0 2px 8px rgba(0, 0, 0, 0.24);
     --sh-md: 0 2px 6px rgba(0, 0, 0, 0.32), 0 12px 30px rgba(0, 0, 0, 0.36);
@@ -2672,27 +2733,8 @@ html[data-theme="dark"] html {
 
 /* --- Правила со светлыми фонами: перекрашиваем в тёмные --- */
 
-/* Кнопки */
-html[data-theme="dark"] .btn-primary:hover,
-html[data-theme="dark"] .btn-elevate:hover,
-html[data-theme="dark"] #btnPingAll:hover {
-    background: #ffffff;
-}
-
-html[data-theme="dark"] .btn-secondary:hover,
-html[data-theme="dark"] #btnUpdateAllSubs:hover,
-html[data-theme="dark"] .btn-express-speedtest:hover,
-html[data-theme="dark"] .preset-chip:hover,
-html[data-theme="dark"] .sub-item:hover,
-html[data-theme="dark"] .route-btn.active,
-html[data-theme="dark"] .category-tab.active,
-html[data-theme="dark"] .search-input-wrapper input:focus,
-html[data-theme="dark"] .custom-dropdown.open .dropdown-trigger,
-html[data-theme="dark"] .dropdown-trigger:hover,
-html[data-theme="dark"] textarea:focus,
-html[data-theme="dark"] input:focus {
-    background: rgba(255, 255, 255, 0.10);
-}
+/* Кнопки: переопределения не нужны — нужные значения заданы
+   переменными --surface-strong / --accent-hover выше. */
 
 /* Кнопка питания: светлый круг → тёмный */
 html[data-theme="dark"] .power-btn__ring {
@@ -2777,26 +2819,9 @@ html[data-theme="dark"] .toggle-slider::before {
     background: #f2f2f5;
 }
 
-/* Зелёные/оранжевые/красные акценты — светлее для тёмного фона */
-html[data-theme="dark"] .proxy-badge.active,
-html[data-theme="dark"] .conn-state.connected,
-html[data-theme="dark"] .metric-down .metric-value,
-html[data-theme="dark"] .metric-down .metric-icon-wrap,
-html[data-theme="dark"] .speedtest-result-badge .speed-unit,
-html[data-theme="dark"] .tab-pill-shield,
-html[data-theme="dark"] .tab-pill-whitelist,
-html[data-theme="dark"] .group-badge.ok {
-    color: var(--ok);
-}
-
-html[data-theme="dark"] .metric-up .metric-value,
-html[data-theme="dark"] .metric-up .metric-icon-wrap {
-    color: #4aa8ff;
-}
-
-html[data-theme="dark"] .admin-warn-bar {
-    color: var(--warn);
-}
+/* Цвета статусов заданы переменными --ok-text / --warn-text /
+   --danger-text / --info-text, поэтому отдельных переопределений
+   для тёмной темы здесь не требуется. */
 
 /* Логи: консоль всегда тёмная, но текст должен быть контрастным */
 html[data-theme="dark"] .logs-console {
