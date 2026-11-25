@@ -1,0 +1,49 @@
+# Сборочные артефакты
+build/
+build_*/
+dist/
+dist_*/
+*.egg-info/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+.mypy_cache/
+.pytest_cache/
+
+# Ядро sing-box и драйвер Wintun (скачиваются приложением или вручную)
+bin/*
+!bin/.gitkeep
+!bin/README.md
+
+# Личные данные: подписки, ключи, активная конфигурация, логи
+data/
+data_*/
+*.log
+velox_app.log
+singbox_active.json
+singbox_debug.json
+
+# Локальные сборки приложения
+/VeloxVPN/
+/VeloxVPN-*/
+/VeloxVPN-Gothic*/
+
+# Служебное: токены и zip-архивы релизов
+.velox_github_token
+*.zip
+
+# IDE и редакторы
+.vscode/
+.idea/
+*.swp
+*~
+Thumbs.db
+desktop.ini
+
+# ОС
+.DS_Store
