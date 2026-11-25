@@ -1186,7 +1186,10 @@ body::before {
 }
 
 .dropdown-opt.active .opt-icon {
-    color: rgba(255, 255, 255, 0.75);
+    /* Иконка повторяет цвет текста активного пункта: в светлой теме
+       это белый на графитовом фоне, в тёмной — тёмный на светлом. */
+    color: var(--text-inverse);
+    opacity: 0.75;
 }
 
 .dropdown-opt .opt-icon svg {
